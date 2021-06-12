@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "myapp-db7d5": {
+      "hosting": {
+        "angular-fs": [
+          "myapp-db7d5"
+        ]
+      }
+    }
+  }
+}
