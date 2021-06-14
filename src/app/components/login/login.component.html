@@ -1,0 +1,22 @@
+<p>login works!</p>
+<h1>Login</h1>
+<form (ngSubmit)="login()">
+    <input type="text" placeholder="email" [(ngModel)]="user.email" name="email">
+    <input type="text" placeholder="password" [(ngModel)]="user.password" name="password">
+    <input type="submit" value="submit">
+</form>
+
+<br><br><br>
+<h1>SignUp</h1>
+<form (ngSubmit)="signUp()">
+    <input type="text" placeholder="email" [(ngModel)]="user.email" name="email">
+    <input type="text" placeholder="password" [(ngModel)]="user.password" name="password">
+    <input type="submit" value="submit">
+</form>
+<br><br><br>
+<br><br><br>
+<button (click)="googleLogin()">Login with Google</button>
+<br><br><br><br><br><br>
+<br><br><br>
+<button (click)="logOut()">Logout</button>
+<br><br><br><br><br><br>
