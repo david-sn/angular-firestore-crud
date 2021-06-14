@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable, from, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { finalize, last, map, switchMap } from 'rxjs/operators';
 
 import { Item } from '../models/item';
 
@@ -17,9 +18,9 @@ export class ItemService {
 
 
   //afs used in retrive criteria
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, private storage: AngularFireStorage) {
 
-    this.itemCollection = this.afs.collection<Item>('items',ref => ref.orderBy('title', 'asc'));
+    this.itemCollection = this.afs.collection<Item>('items', ref => ref.orderBy('title', 'asc'));
 
     // this.items = this.afs.collection<Item>('items', ref => ref.orderBy('title', 'asc')).valueChanges(); //this will not retuen id of doc
 
@@ -40,14 +41,14 @@ export class ItemService {
     return this.items;
   }
 
-  addItem(item:Item) {
+  addItem(item: Item) {
     return this.itemCollection.add(item);//same below
     // return this.afs.collection<Item>('items').add(item);
   }
 
   deleteItem(id: string | undefined) {
     this.itemDoc = this.afs.collection('items').doc(id);
-   return this.itemDoc.delete();
+    return this.itemDoc.delete();
   }
 
   editItem(item: Item) {
@@ -55,6 +56,20 @@ export class ItemService {
     item.description = new Date().getTime().toString();
 
     this.afs.collection('items').doc(item.id).update(item);
+  }
+
+  uploadFile(event:any) {
+    const file = event.target.files[0];
+    console.log(file);
+
+    const filePath = 'image.png';
+    const ref = this.storage.ref(filePath);
+    const task = ref.put(file);
+    task.snapshotChanges()
+      .pipe(
+        last(),  // emit the last element after task.snapshotChanges() completed
+        switchMap(() => ref.getDownloadURL())
+      ).subscribe(url => console.log(url))
   }
 }
 

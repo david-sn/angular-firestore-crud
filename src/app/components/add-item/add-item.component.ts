@@ -22,4 +22,8 @@ export class AddItemComponent implements OnInit {
   onSubmit(){
     this.itemService.addItem(this.item);
   }
+
+  uploadFile(event:any){
+    this.itemService.uploadFile(event);
+  }
 }

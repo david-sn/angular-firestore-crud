@@ -13,6 +13,7 @@ import { AddItemComponent } from './components/add-item/add-item.component';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import {AngularFireAuthModule} from '@angular/fire/auth';
+import { AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -28,9 +29,10 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     FormsModule
   ],
-  providers: [ItemService],
+  providers: [ItemService,{ provide: BUCKET, useValue: 'myapp-db7d5.appspot.com' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
